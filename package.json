@@ -3,11 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
+ "scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "prebuild": "chmod +x node_modules/.bin/vite"
+},
   "dependencies": {
     "axios": "^1.21.0",
     "i18next": "^26.5.12",
