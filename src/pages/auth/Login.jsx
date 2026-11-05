@@ -120,7 +120,7 @@ export default function Login() {
       <form onSubmit={handleSubmit} className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-7 shadow-2xl shadow-black/30 sm:p-9">
         <Link to="/" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500 font-bold text-white">A</span>
-          AI<span className="-ml-2 text-blue-400">Convert</span>
+          PDF<span className="-ml-2 text-blue-400">Converter</span>
         </Link>
         <h1 className="text-3xl font-semibold tracking-tight text-white">{t('auth.welcomeBack')}</h1>
         <p className="mt-2 text-sm text-slate-400">{t('auth.loginDescription')}</p>
