@@ -177,6 +177,24 @@ textarea::placeholder {
   opacity: 0.75;
 }
 
+.success-check-circle {
+  stroke-dasharray: 126;
+  stroke-dashoffset: 126;
+  animation: success-check-draw 500ms ease-out 150ms forwards;
+}
+
+.success-check-mark {
+  stroke-dasharray: 32;
+  stroke-dashoffset: 32;
+  animation: success-check-draw 300ms ease-out 550ms forwards;
+}
+
+@keyframes success-check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 button,
 a,
 input,
@@ -191,6 +209,7 @@ textarea {
   *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
