@@ -61,6 +61,9 @@ export default function Sidebar() {
             <NavLink to="/admin/monitoring" className={linkClass}>
               {t('nav.systemMonitoring')}
             </NavLink>
+            <NavLink to="/admin/settings" className={linkClass}>
+              {t('nav.adminSettings')}
+            </NavLink>
           </>
         )}
       </nav>

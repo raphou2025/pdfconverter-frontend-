@@ -6,8 +6,9 @@ export const adminService = {
     const res = await api.get('/admin/stats');
     return res.data;
   },
-  getUsers: async (page = 1, pageSize = 20) => {
-    const res = await api.get(`/admin/users?page=${page}&pageSize=${pageSize}`);
+  getUsers: async (page = 1, pageSize = 20, search = '', role = 'ALL') => {
+    const params = new URLSearchParams({ page, pageSize, search, role });
+    const res = await api.get(`/admin/users?${params}`);
     return res.data;
   },
   

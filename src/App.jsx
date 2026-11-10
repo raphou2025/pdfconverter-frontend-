@@ -13,6 +13,7 @@ import Settings from './pages/dashboard/Settings';
 import Translator from './pages/dashboard/Translator';
 import AdminOverview from './pages/dashboard/AdminOverview';
 import AdminMonitor from './pages/dashboard/AdminMonitor';
+import AdminSettings from './pages/dashboard/AdminSettings';
 
 function ProtectedRoute() {
   const { user, loading } = useContext(AuthContext);
@@ -78,6 +79,7 @@ export default function App() {
             <Route path="/admin" element={<DashboardLayout />}>
               <Route index element={<AdminOverview />} />
               <Route path="monitoring" element={<AdminMonitor />} />
+              <Route path="settings" element={<AdminSettings />} />
             </Route>
           </Route>
         </Route>
