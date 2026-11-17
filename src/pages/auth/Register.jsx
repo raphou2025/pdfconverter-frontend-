@@ -102,6 +102,7 @@ import { getAuthErrorMessage } from '../../services/authService';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../../components/layout/LanguageSwitcher';
 import { useNotification } from '../../context/NotificationContext';
+import logo from '../../assets/images/logo/Glossy_Blue-Purple_Document_P_Icon-removebg-preview.png';
 
 export default function Register() {
   const { t, i18n } = useTranslation();
@@ -143,7 +144,9 @@ export default function Register() {
       <LanguageSwitcher className="absolute right-5 top-5 sm:right-8 sm:top-8" />
       <form onSubmit={handleSubmit} className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-7 shadow-2xl shadow-black/30 sm:p-9">
         <Link to="/" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500 font-bold text-white">A</span>
+          <span aria-hidden="true" className="relative h-9 w-9 shrink-0 overflow-hidden">
+            <img src={logo} alt="" className="absolute left-1/2 top-1/2 h-[72px] w-[144px] max-w-none -translate-x-1/2 -translate-y-1/2" />
+          </span>
           PDF<span className="-ml-2 text-blue-400">Converter</span>
         </Link>
         <h1 className="text-3xl font-semibold tracking-tight text-white">{t('auth.createYourAccount')}</h1>
