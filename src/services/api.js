@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const defaultApiUrl = import.meta.env.DEV
+  ? "http://localhost:5001/api"
+  : "https://pdfcoverter-api.onrender.com/api";
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL || defaultApiUrl,
   timeout: 60000, // 60 seconds
 });
 
