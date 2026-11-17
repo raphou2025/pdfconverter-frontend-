@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
 import { useNotification } from '../../context/NotificationContext';
+import logo from '../../assets/images/logo/Glossy_Blue-Purple_Document_P_Icon-removebg-preview.png';
 
 const linkClass = ({ isActive }) =>
   `rounded-xl px-3 py-2.5 text-sm font-medium transition ${
@@ -26,8 +27,8 @@ export default function Sidebar() {
   return (
     <aside className="z-20 flex w-full flex-col border-b border-slate-800 bg-slate-950/95 px-5 py-4 md:sticky md:top-0 md:min-h-screen md:w-64 md:border-b-0 md:border-r md:px-4 md:py-7">
       <Link to="/dashboard" className="flex items-center gap-3 px-2">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500 text-sm font-bold text-white shadow-lg shadow-blue-950/40">
-          P
+        <span aria-hidden="true" className="relative h-9 w-9 shrink-0 overflow-hidden">
+          <img src={logo} alt="" className="absolute left-1/2 top-1/2 h-[72px] w-[144px] max-w-none -translate-x-1/2 -translate-y-1/2" />
         </span>
         <span className="text-lg font-semibold tracking-tight text-white">
           PDF<span className="text-blue-400">Converter</span>

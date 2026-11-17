@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom"; // 🚨 Added for navigation
+// import { useNavigate } from "react-router-dom";
 // import { useAuth } from "../../hooks/useAuth";
 // import FileDropzone from "../../components/dashboard/FileDropZone";
 // import Button from "../../components/ui/Button";
@@ -7,13 +7,13 @@
 // import { useTranslation } from "react-i18next";
 // import { localizeError } from "../../utils/localizeError";
 // import { useNotification } from "../../context/NotificationContext";
-// import { ToolIcons } from "../../components/ui/ToolIcons"; // 🚨 Import new icons
+// import { ToolIcons } from "../../components/ui/ToolIcons";
 
 // export default function Overview() {
 //   const { user } = useAuth();
 //   const { t } = useTranslation();
 //   const notify = useNotification();
-//   const navigate = useNavigate(); // 🚨 Initialize navigation
+//   const navigate = useNavigate();
 
 //   const [file, setFile] = useState(null);
 //   const [imageUrl, setImageUrl] = useState("");
@@ -21,7 +21,7 @@
 //   const [isProcessing, setIsProcessing] = useState(false);
 //   const [result, setResult] = useState(null);
 
-//   // 🚨 NEW: The Tool Categories Data
+//   // 🚨 FIXED: Cleaned up the duplicate category and fixed the typo
 //   const toolCategories = [
 //     {
 //       title: "Extract & Process",
@@ -46,9 +46,8 @@
 //         {
 //           name: "Merge PDF",
 //           icon: ToolIcons.Merge,
-//           path: "#",
+//           path: "/dashboard/tools/merge", // 🚨 Now routes perfectly
 //           color: "bg-violet-500/10 text-violet-400 ring-violet-500/20",
-//           comingSoon: true,
 //         },
 //         {
 //           name: "Split PDF",
@@ -97,27 +96,8 @@
 //         },
 //       ],
 //     },
-//     {
-//       title: "Manage PDF",
-//       tools: [
-//         {
-//           name: "Merge PDF",
-//           icon: ToolIcons.Merge,
-//           Path: "/dashboard/tools/merge",
-//           color: "bg-violet-500/10 text-violet-400 ring-violet-500/20",
-//         }, // Removed comingSoon
-//         {
-//           name: "Split PDF",
-//           icon: ToolIcons.Split,
-//           path: "#",
-//           color: "bg-violet-500/10 text-violet-400 ring-violet-500/20",
-//           comingSoon: true,
-//         },
-//       ]
-//     },
 //   ];
 
-//   // 🚨 NEW: Handle Grid Click
 //   const handleToolClick = (tool) => {
 //     if (tool.comingSoon) {
 //       notify(`${tool.name} is coming soon!`, "info");
@@ -126,7 +106,6 @@
 //     }
 //   };
 
-//   // Effect to handle image preview logic
 //   useEffect(() => {
 //     if (file && file.type.startsWith("image/")) {
 //       const objectUrl = URL.createObjectURL(file);
@@ -175,7 +154,6 @@
 
 //   return (
 //     <div>
-//       {/* Welcome Header */}
 //       <div className="mb-8">
 //         <p className="mb-2 text-sm font-medium text-blue-300">
 //           {t("overview.workspace")}
@@ -188,7 +166,6 @@
 //         <p className="mt-2 text-slate-400">{t("overview.intro")}</p>
 //       </div>
 
-//       {/* 🚨 THE NEW TOOL GRID */}
 //       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
 //         {toolCategories.map((category) => (
 //           <div key={category.title}>
@@ -224,7 +201,6 @@
 //         ))}
 //       </div>
 
-//       {/* 🚨 SCROLL TARGET: Existing Upload Area */}
 //       <div
 //         id="upload-section"
 //         className="grid gap-6 xl:grid-cols-[minmax(0,1.7fr)_minmax(240px,0.8fr)] scroll-mt-24"
@@ -282,7 +258,6 @@
 //             />
 //           </div>
 
-//           {/* Image Preview Section */}
 //           {previewUrl && (
 //             <div className="mt-6">
 //               <p className="mb-2 text-sm font-medium text-slate-300">
@@ -346,7 +321,6 @@
 //           )}
 //         </section>
 
-//         {/* Existing Aside Section */}
 //         <aside className="rounded-2xl border border-slate-800 bg-gradient-to-br from-blue-500/10 via-slate-900 to-slate-900 p-6">
 //           <span className="inline-flex rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
 //             {t("overview.workflow")}
@@ -381,7 +355,6 @@
 //   );
 // }
 
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
@@ -392,6 +365,7 @@ import { useTranslation } from "react-i18next";
 import { localizeError } from "../../utils/localizeError";
 import { useNotification } from "../../context/NotificationContext";
 import { ToolIcons } from "../../components/ui/ToolIcons";
+import UpgradeModal from "../../components/dashboard/UpgradeModal"; // 🚨 Import Paywall
 
 export default function Overview() {
   const { user } = useAuth();
@@ -405,7 +379,10 @@ export default function Overview() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState(null);
 
-  // 🚨 FIXED: Cleaned up the duplicate category and fixed the typo
+  // 🚨 Paywall Modal State
+  const [upgradeModalOpen, setUpgradeModalOpen] = useState(false);
+  const [selectedFeature, setSelectedFeature] = useState("");
+
   const toolCategories = [
     {
       title: "Extract & Process",
@@ -430,15 +407,14 @@ export default function Overview() {
         {
           name: "Merge PDF",
           icon: ToolIcons.Merge,
-          path: "/dashboard/tools/merge", // 🚨 Now routes perfectly
+          path: "/dashboard/tools/merge",
           color: "bg-violet-500/10 text-violet-400 ring-violet-500/20",
         },
         {
           name: "Split PDF",
           icon: ToolIcons.Split,
-          path: "#",
+          path: "/dashboard/tools/split", // 🚨 Fixed to route properly
           color: "bg-violet-500/10 text-violet-400 ring-violet-500/20",
-          comingSoon: true,
         },
       ],
     },
@@ -450,7 +426,7 @@ export default function Overview() {
           icon: ToolIcons.Doc,
           path: "#",
           color: "bg-amber-500/10 text-amber-400 ring-amber-500/20",
-          comingSoon: true,
+          isPremium: true, // 🚨 Marked as Premium
         },
         {
           name: "PDF to JPG",
@@ -469,21 +445,24 @@ export default function Overview() {
           icon: ToolIcons.Doc,
           path: "#",
           color: "bg-blue-500/10 text-blue-400 ring-blue-500/20",
-          comingSoon: true,
+          isPremium: true, // 🚨 Marked as Premium
         },
         {
           name: "JPG to PDF",
           icon: ToolIcons.Image,
-          path: "#",
+          path: "/dashboard/tools/jpg-to-pdf", // 🚨 Fixed to route properly
           color: "bg-amber-500/10 text-amber-400 ring-amber-500/20",
-          comingSoon: true,
         },
       ],
     },
   ];
 
   const handleToolClick = (tool) => {
-    if (tool.comingSoon) {
+    if (tool.isPremium) {
+      // 🚨 Open the Paywall Modal instead of navigating
+      setSelectedFeature(tool.name);
+      setUpgradeModalOpen(true);
+    } else if (tool.comingSoon) {
       notify(`${tool.name} is coming soon!`, "info");
     } else {
       navigate(tool.path);
@@ -573,8 +552,15 @@ export default function Overview() {
                       {tool.name}
                     </span>
                   </div>
-                  {tool.comingSoon && (
+                  
+                  {/* 🚨 BADGES: PRO vs SOON */}
+                  {tool.isPremium && (
                     <span className="ml-auto text-[10px] font-bold text-amber-500 bg-amber-500/10 px-2 py-1 rounded-md uppercase tracking-wider">
+                      PRO
+                    </span>
+                  )}
+                  {tool.comingSoon && !tool.isPremium && (
+                    <span className="ml-auto text-[10px] font-bold text-slate-400 bg-slate-400/10 px-2 py-1 rounded-md uppercase tracking-wider">
                       Soon
                     </span>
                   )}
@@ -735,6 +721,13 @@ export default function Overview() {
           </div>
         </aside>
       </div>
+
+      {/* 🚨 THE PAYWALL MODAL */}
+      <UpgradeModal 
+        isOpen={upgradeModalOpen} 
+        onClose={() => setUpgradeModalOpen(false)} 
+        featureName={selectedFeature} 
+      />
     </div>
   );
 }

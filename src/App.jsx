@@ -120,12 +120,17 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Overview from "./pages/dashboard/Overview";
 import History from "./pages/dashboard/History";
-import MergePDF from "./pages/Tools/MergePDF";
 import Settings from "./pages/dashboard/Settings";
 import Translator from "./pages/dashboard/Translator";
 import AdminOverview from "./pages/dashboard/AdminOverview";
 import AdminMonitor from "./pages/dashboard/AdminMonitor";
 import AdminSettings from "./pages/dashboard/AdminSettings";
+
+// 🚨 Import the Tool Pages
+import MergePDF from "./pages/Tools/MergePDF";
+import SplitPDF from "./pages/Tools/SplitPDF";
+import JpgToPdf from "./pages/Tools/JpgToPdf";
+import Checkout from "./pages/dashboard/Checkout";
 
 function ProtectedRoute() {
   const { user, loading } = useContext(AuthContext);
@@ -193,8 +198,13 @@ export default function App() {
             <Route path="translator" element={<Translator />} />
             <Route path="history" element={<History />} />
             <Route path="settings" element={<Settings />} />
-            {/* 🚨 FIXED: Moved MergePDF inside the DashboardLayout so it has the Sidebar */}
-            <Route path="tools/merge" element={<MergePDF />} /> 
+            
+            {/* 🚨 The New Tool Routes */}
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="tools/merge" element={<MergePDF />} />
+            <Route path="tools/split" element={<SplitPDF />} />
+            <Route path="tools/jpg-to-pdf" element={<JpgToPdf />} />
+            
           </Route>
           
           <Route element={<AdminRoute />}>
